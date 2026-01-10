@@ -5,169 +5,178 @@
 </p>
 
 <p align="center">
-  <b>Java + Spring Boot REST API</b><br>
-  <i>Vehicle & appliance rental management system</i>
+  <b>Backend REST API · Java · Spring Boot</b><br>
+  <i>Rental management system focused on clean architecture and backend design patterns</i>
 </p>
 
 ---
 
-# 🚀 Overview
+## 🧠 Overview
 
-**Gestor_Alquiler_Backend** is a complete **REST API built with Spring Boot**, designed to manage rentals of:
+**Gestor_Alquiler_Backend** is a **backend-first REST API** developed with **Spring Boot**, designed to manage the rental of different types of assets through a flexible and extensible domain model.
 
-- 🚗 **Vehicles** (cars, motos, trucks — rented per hour)  
+The system supports:
+
+- 🚗 **Vehicles** (cars, motorcycles, trucks — rented per hour)
 - 📦 **Appliances** (electrodomésticos — rented per day)
 
-It includes user authentication with **JWT**, availability validation, rental cost calculation, DTO mapping, and follows clean architecture principles with patterns such as **Factory Method** and **Strategy**.
+The project focuses on **backend architecture**, applying **SOLID principles**, **object-oriented design**, and well-known **design patterns** such as **Factory Method** and **Strategy**.
 
-This backend powers the Angular frontend of the same system.
-
----
-
-# ✅ Features
-
-### 🔐 **Authentication & Security**
-- Login with email + password  
-- **JWT tokens**  
-- Stateless security (no sessions)  
-- CORS configured for frontend routes  
-
-### 🚗 **Rental Management**
-- Create, edit, delete rentals  
-- Hourly pricing (vehicles)  
-- Daily pricing (appliances)  
-- Automatic rental cost calculation  
-- Prevents double-booking of the same item  
-
-### 📦 **Inventory / Alquilables**
-- Separate models for **vehicles** and **appliances**  
-- Availability tracking  
-- CRUD operations  
-- DTO mapping for front-end integration  
-- Factory pattern for object creation  
-- Strategy pattern for pricing logic  
-
-### 👤 **User Management**
-- Login  
-- Roles (student/teacher or custom)  
-- Rental tied to authenticated user  
+Authentication and authorization are handled using **JWT**, ensuring a stateless and secure API.
 
 ---
 
-# 🧠 Architecture & Design
+## ✅ Features
 
-### ✅ **Clean Layered Structure**
-- `controllers/`  
-- `services/`  
-- `repositories/`  
-- `entities/`  
-- `dtos/`  
-- `strategies/` for pricing  
-- `factory/` for Alquilable creation  
+### 🔐 Authentication & Security
+- Login with email and password
+- JWT-based authentication
+- Stateless security configuration
+- CORS configured for frontend consumption
 
-### ✅ **Patterns Implemented**
-- **Factory Method** → Creates specific Alquilable subclasses  
-- **Strategy** → Pricing calculation (hours/days)  
-- **DTO + Mapper** → Clean API communication  
-- **Singleton** (LoginDao in original version)
+### 🚗 Rental Management
+- Create, update and delete rentals
+- Hour-based pricing for vehicles
+- Day-based pricing for appliances
+- Automatic rental cost calculation
+- Availability validation to prevent double booking
 
-### ✅ **Spring Components**
-- Spring Web  
-- Spring Data JPA  
-- Hibernate  
-- Spring Security  
-- MySQL Connector  
-- ModelMapper  
+### 📦 Inventory (Alquilables)
+- Separate domain models for vehicles and appliances
+- Availability tracking
+- Full CRUD operations
+- DTO-based API communication
+- Factory pattern for asset creation
+- Strategy pattern for pricing calculation
+
+### 👤 User Management
+- User authentication
+- Role-based access
+- Rentals associated with authenticated users
 
 ---
 
+## 🧱 Architecture & Design
+
+### 🧩 Layered Backend Architecture
+- `controllers` — REST API endpoints
+- `services` — business logic
+- `repositories` — data persistence (JPA)
+- `entities` — domain models
+- `dtos` — API contracts
+- `strategies` — pricing algorithms
+- `factory` — alquilable instantiation
+
+### 🧠 Design Patterns Applied
+- **Factory Method** → creation of different rentable asset types
+- **Strategy** → interchangeable pricing algorithms
+- **DTO + Mapper** → separation between API and domain
+- **Singleton** → applied in DAO layer (legacy version)
+
+### 🔧 Spring Ecosystem
+- Spring Web
+- Spring Data JPA
+- Hibernate
+- Spring Security
+- ModelMapper
+
 ---
 
-# 🗄️ Database Diagram (Simplified)
+## 🗄️ Database Model (Simplified)
 
-Users  
-├── id  
-├── email  
-├── password  
-└── role  
+**Users**
+- id
+- email
+- password
+- role
 
-Alquilables  
-├── id  
-├── type (vehicle / appliance)  
-├── brand  
-├── available  
-└── extra fields per subclass  
+**Alquilables**
+- id
+- type (vehicle / appliance)
+- brand
+- available
+- subtype-specific fields
 
-Rentals  
-├── id  
-├── user_id (FK)  
-├── alquilable_id (FK)  
-├── start_date  
-├── end_date  
-└── total_cost  
+**Rentals**
+- id
+- user_id (FK)
+- alquilable_id (FK)
+- start_date
+- end_date
+- total_cost
 
-# 📡 API Endpoints (Resumen)
+---
 
-🔐 Auth
-| Method | Endpoint      | Description       |
-| ------ | ------------- | ----------------- |
-| POST   | `/auth/login` | Returns JWT token |
+## 📡 API Endpoints (Summary)
 
-🚗 Alquilables
-| Method | Endpoint            | Description    |
-| ------ | ------------------- | -------------- |
-| GET    | `/alquilables`      | List all items |
-| POST   | `/alquilables`      | Create         |
-| PUT    | `/alquilables/{id}` | Update         |
-| DELETE | `/alquilables/{id}` | Delete         |
+### 🔐 Authentication
+| Method | Endpoint      | Description        |
+|------|---------------|--------------------|
+| POST | `/auth/login` | Returns JWT token  |
 
-📄 Rentals
-| Method | Endpoint        | Description                |
-| ------ | --------------- | -------------------------- |
-| POST   | `/rentals`      | Create rental if available |
-| GET    | `/rentals/user` | Rentals by logged user     |
-| DELETE | `/rentals/{id}` | Cancel rental              |
+### 🚗 Alquilables
+| Method | Endpoint             | Description        |
+|------|----------------------|--------------------|
+| GET  | `/alquilables`       | List all assets    |
+| POST | `/alquilables`       | Create asset       |
+| PUT  | `/alquilables/{id}`  | Update asset       |
+| DELETE | `/alquilables/{id}` | Delete asset       |
 
-# ▶️ How to Run
+### 📄 Rentals
+| Method | Endpoint         | Description                     |
+|------|------------------|---------------------------------|
+| POST | `/rentals`       | Create rental if available      |
+| GET  | `/rentals/user`  | Rentals by authenticated user  |
+| DELETE | `/rentals/{id}` | Cancel rental                   |
 
-✅ 1. Clone the repo
+---
+
+## ▶️ How to Run
+
+### ✅ 1. Clone the repository
+```bash
 git clone https://github.com/joacko23/Gestor_Alquiler_Backend.git
 cd Gestor_Alquiler_Backend
 
-✅ 2. Configure database (MySQL)
-Create database:
-CREATE DATABASE gestor_alquiler;
+```
 
+### ✅ 2. Configure database (MySQL)
+Create database:
+```bash
+CREATE DATABASE gestor_alquiler;
+```
 Configure credentials in application.properties:
+```bash
 spring.datasource.url=jdbc:mysql://localhost:3306/gestor_alquiler
 spring.datasource.username=root
 spring.datasource.password=tu_password
 spring.jpa.hibernate.ddl-auto=update
-
-✅ 3. Run the app
+```
+### ✅ 3. Run the app
+```bash
 mvn spring-boot:run
-
+```
 Backend available at:
 ➡️ http://localhost:8080
 
-# ✅ Technologies
+## 🛠️ Technologies
 
-Java 19+
+Java 17+
 
 Spring Boot
 
 Spring Security + JWT
 
-MySQL
+JPA / Hibernate
 
-Hibernate / JPA
+MySQL
 
 ModelMapper
 
-# 👨‍💻 Author
+## 👨‍💻 Author
 
 **Joaquín Domenech**  
-Full-Stack Developer  
+Backend Developer — Java & Spring Boot  
 📧 joackodomenech@gmail.com  
 
 <p align="center"> <img src="https://capsule-render.vercel.app/api?type=waving&color=0:000428,100:004e92&height=150&section=footer" /> </p> 
